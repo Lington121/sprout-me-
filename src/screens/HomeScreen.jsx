@@ -16,7 +16,7 @@ const MESSAGES = [
   'Your reflections are taking root.'
 ]
 
-export default function HomeScreen() {
+export default function HomeScreen({ onReflect, onInsights, onSuggestions }) {
   const [nudgeOpen, setNudgeOpen] = useState(false)
   const [msg] = useState(() => MESSAGES[Math.floor(Math.random() * MESSAGES.length)])
 
@@ -89,15 +89,15 @@ export default function HomeScreen() {
 
       {/* ===== PRIMARY ACTION ===== */}
       <div className="home__primary">
-        <button type="button" className="pill home__reflect-btn">
+        <button type="button" className="pill home__reflect-btn" onClick={onReflect}>
           Reflect
         </button>
       </div>
 
       {/* ===== SECONDARY ACTIONS ===== */}
       <div className="home__secondary">
-        <button type="button" className="home__secondary-btn">Suggestions</button>
-        <button type="button" className="home__secondary-btn">Insights</button>
+        <button type="button" className="home__secondary-btn" onClick={onSuggestions}>Suggestions</button>
+        <button type="button" className="home__secondary-btn" onClick={onInsights}>Insights</button>
       </div>
 
       {/* ===== AI NUDGE CARD ===== */}
@@ -113,8 +113,8 @@ export default function HomeScreen() {
         </button>
         {nudgeOpen && (
           <div className="home__nudge-body">
-            Would you like a short idea based on what you\u2019ve been reflecting on?
-            <button type="button" className="home__nudge-cta">Sure, show me</button>
+            Would you like a short idea based on what you{"'"}ve been reflecting on?
+            <button type="button" className="home__nudge-cta" onClick={onSuggestions}>Sure, show me</button>
           </div>
         )}
       </div>

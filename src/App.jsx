@@ -8,18 +8,26 @@ import DailyLimit from './screens/DailyLimit.jsx'
 import ModeSelection from './screens/ModeSelection.jsx'
 import Done from './screens/Done.jsx'
 import HomeScreen from './screens/HomeScreen.jsx'
+import ReflectScreen from './screens/ReflectScreen.jsx'
+import ReflectSuccess from './screens/ReflectSuccess.jsx'
+import InsightsScreen from './screens/InsightsScreen.jsx'
+import SuggestionsScreen from './screens/SuggestionsScreen.jsx'
 
 const STEPS = {
-  SPLASH:  'splash',
-  ONB1:    'onb1',
-  ONB2:    'onb2',
-  ONB3:    'onb3',
-  STYLE:   'style',
-  TREE:    'tree',
-  LIMIT:   'limit',
-  MODE:    'mode',
-  DONE:    'done',
-  HOME:    'home'
+  SPLASH:          'splash',
+  ONB1:            'onb1',
+  ONB2:            'onb2',
+  ONB3:            'onb3',
+  STYLE:           'style',
+  TREE:            'tree',
+  LIMIT:           'limit',
+  MODE:            'mode',
+  DONE:            'done',
+  HOME:            'home',
+  REFLECT:         'reflect',
+  REFLECT_SUCCESS: 'reflect-success',
+  INSIGHTS:        'insights',
+  SUGGESTIONS:     'suggestions'
 }
 
 const ONB_ORDER = [STEPS.ONB1, STEPS.ONB2, STEPS.ONB3]
@@ -66,6 +74,12 @@ const TABS = [
   }
 ]
 
+const TAB_STEP = {
+  home:     STEPS.HOME,
+  reflect:  STEPS.REFLECT,
+  insights: STEPS.INSIGHTS
+}
+
 function TabBar({ activeTab, onTab }) {
   return (
     <div className="tabbar" role="navigation" aria-label="Main navigation">
@@ -88,7 +102,7 @@ function TabBar({ activeTab, onTab }) {
 
 export default function App() {
   const [step, setStep] = useState(STEPS.SPLASH)
-  const [tab,   setTab] = useState('home')
+  const [tab,   setTab]   = useState('home')
   const [style,      setStyle]      = useState(null)
   const [treeName,   setTreeName]   = useState('')
   const [limit,      setLimit]      = useState(null)
@@ -118,23 +132,26 @@ export default function App() {
     setTab('home')
   }
 
-  const goHome = () => {
-    setStep(STEPS.HOME)
-    setTab('home')
-  }
+  const goHome = () => { setStep(STEPS.HOME); setTab('home') }
+  const goReflect = () => { setStep(STEPS.REFLECT); setTab('reflect') }
+  const goInsights = () => { setStep(STEPS.INSIGHTS); setTab('insights') }
+  const goSuggestions = () => { setStep(STEPS.SUGGESTIONS); setTab('insights') }
 
   const handleTab = (id) => {
+    if (!TAB_STEP[id]) return // profile not yet implemented
     setTab(id)
-    if (id !== 'home') setStep(STEPS.HOME)
+    setStep(TAB_STEP[id])
   }
 
   const splashActive = step === STEPS.SPLASH
-  const showTabBar = step === STEPS.HOME
-  const activeTab = tab
+  const showTabBar = [STEPS.HOME, STEPS.REFLECT, STEPS.INSIGHTS, STEPS.SUGGESTIONS].includes(step)
 
   return (
     <div className="stage">
-      <PhoneFrame statusLight={splashActive} tabBar={showTabBar ? <TabBar activeTab={activeTab} onTab={handleTab} /> : null}>
+      <PhoneFrame
+        statusLight={splashActive}
+        tabBar={showTabBar ? <TabBar activeTab={tab} onTab={handleTab} /> : null}
+      >
         {step === STEPS.SPLASH    && <Splash />}
         {step === STEPS.ONB1     && <Onboarding key="onb1" index={0} onNext={nextOnb} />}
         {step === STEPS.ONB2     && <Onboarding key="onb2" index={1} onNext={nextOnb} />}
@@ -171,7 +188,28 @@ export default function App() {
             onGoHome={goHome}
           />
         )}
-        {step === STEPS.HOME     && <HomeScreen />}
+        {step === STEPS.HOME     && (
+          <HomeScreen
+            onReflect={goReflect}
+            onInsights={goInsights}
+            onSuggestions={goSuggestions}
+          />
+        )}
+        {step === STEPS.REFLECT  && (
+          <ReflectScreen
+            onDone={() => setStep(STEPS.REFLECT_SUCCESS)}
+            onSkip={goHome}
+            onClose={goHome}
+          />
+        )}
+        {step === STEPS.REFLECT_SUCCESS && (
+          <ReflectSuccess
+            onHome={goHome}
+            onSuggestions={goSuggestions}
+          />
+        )}
+        {step === STEPS.INSIGHTS && <InsightsScreen onHome={goHome} />}
+        {step === STEPS.SUGGESTIONS && <SuggestionsScreen onHome={goHome} />}
       </PhoneFrame>
     </div>
   )
