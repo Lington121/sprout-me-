@@ -66,6 +66,26 @@ const TABS = [
   }
 ]
 
+function TabBar({ activeTab, onTab }) {
+  return (
+    <div className="tabbar" role="navigation" aria-label="Main navigation">
+      {TABS.map(t => (
+        <button
+          key={t.id}
+          type="button"
+          className={'tabbar__item' + (activeTab === t.id ? ' tabbar__item--active' : '')}
+          onClick={() => onTab(t.id)}
+          aria-label={t.label}
+          aria-current={activeTab === t.id ? 'page' : undefined}
+        >
+          {t.icon}
+          <span>{t.label}</span>
+        </button>
+      ))}
+    </div>
+  )
+}
+
 export default function App() {
   const [step, setStep] = useState(STEPS.SPLASH)
   const [tab,   setTab] = useState('home')
@@ -103,17 +123,18 @@ export default function App() {
     setTab('home')
   }
 
-  const splashActive = step === STEPS.SPLASH
-  const inFlow = ![
-    STEPS.HOME, 'home',
-  ].includes(step) && ![STEPS.HOME].includes(step)
+  const handleTab = (id) => {
+    setTab(id)
+    if (id !== 'home') setStep(STEPS.HOME)
+  }
 
+  const splashActive = step === STEPS.SPLASH
   const showTabBar = step === STEPS.HOME
   const activeTab = tab
 
   return (
     <div className="stage">
-      <PhoneFrame statusLight={splashActive}>
+      <PhoneFrame statusLight={splashActive} tabBar={showTabBar ? <TabBar activeTab={activeTab} onTab={handleTab} /> : null}>
         {step === STEPS.SPLASH    && <Splash />}
         {step === STEPS.ONB1     && <Onboarding key="onb1" index={0} onNext={nextOnb} />}
         {step === STEPS.ONB2     && <Onboarding key="onb2" index={1} onNext={nextOnb} />}
@@ -152,27 +173,6 @@ export default function App() {
         )}
         {step === STEPS.HOME     && <HomeScreen />}
       </PhoneFrame>
-
-      {showTabBar && (
-        <div className="tabbar" role="navigation" aria-label="Main navigation">
-          {TABS.map(t => (
-            <button
-              key={t.id}
-              type="button"
-              className={'tabbar__item' + (activeTab === t.id ? ' tabbar__item--active' : '')}
-              onClick={() => {
-                setTab(t.id)
-                if (t.id !== 'home') setStep(STEPS.HOME)
-              }}
-              aria-label={t.label}
-              aria-current={activeTab === t.id ? 'page' : undefined}
-            >
-              {t.icon}
-              <span>{t.label}</span>
-            </button>
-          ))}
-        </div>
-      )}
     </div>
   )
 }

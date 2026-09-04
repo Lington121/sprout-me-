@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function PhoneFrame({ children, statusLight = false }) {
+export default function PhoneFrame({ children, statusLight = false, tabBar }) {
   return (
     <div className="phone" role="presentation">
       <div className="phone__notch" />
@@ -14,6 +14,7 @@ export default function PhoneFrame({ children, statusLight = false }) {
       </div>
       {children}
       <div className="phone__home" />
+      {tabBar}
     </div>
   )
 }
