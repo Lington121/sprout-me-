@@ -19,6 +19,7 @@ import StyleSettingsScreen from './screens/StyleSettingsScreen.jsx'
 import QuietHoursScreen from './screens/QuietHoursScreen.jsx'
 import NotificationsScreen from './screens/NotificationsScreen.jsx'
 import PrivacyDataScreen from './screens/PrivacyDataScreen.jsx'
+import ShowcaseScreen from './screens/ShowcaseScreen.jsx'
 
 const STEPS = {
   SPLASH:              'splash',
@@ -41,7 +42,8 @@ const STEPS = {
   STYLE_SETTINGS:      'style-settings',
   QUIET_HOURS:         'quiet-hours',
   NOTIFICATIONS:       'notifications',
-  PRIVACY:             'privacy'
+  PRIVACY:             'privacy',
+  SHOWCASE:            'showcase'
 }
 
 const ONB_ORDER = [STEPS.ONB1, STEPS.ONB2, STEPS.ONB3]
@@ -103,8 +105,9 @@ const PROFILE_NAV = {
   quiet:   STEPS.QUIET_HOURS,
   notif:   STEPS.NOTIFICATIONS,
   privacy: STEPS.PRIVACY,
-  help:    STEPS.PROFILE,            // no Help screen yet
-  logout:  STEPS.SPLASH
+  help:    STEPS.SHOWCASE,           // showcase serves as the "Help" surface
+  logout:  STEPS.SPLASH,
+  showcase: STEPS.SHOWCASE
 }
 
 function TabBar({ activeTab, onTab }) {
@@ -166,6 +169,7 @@ export default function App() {
   const goInsights     = () => { setStep(STEPS.INSIGHTS);  setTab('insights') }
   const goSuggestions  = () => { setStep(STEPS.SUGGESTIONS); setTab('insights') }
   const goProfile      = () => { setStep(STEPS.PROFILE);   setTab('profile') }
+  const goShowcase     = () => setStep(STEPS.SHOWCASE)
   const goBackToProfile = () => setStep(STEPS.PROFILE)
 
   const handleTab = (id) => {
@@ -237,6 +241,7 @@ export default function App() {
             onInsights={goInsights}
             onSuggestions={goSuggestions}
             onProfile={goProfile}
+            onShowcase={goShowcase}
           />
         )}
         {step === STEPS.REFLECT  && (
@@ -301,6 +306,9 @@ export default function App() {
             onExport={() => { /* placeholder */ }}
             onDelete={() => { /* placeholder */ }}
           />
+        )}
+        {step === STEPS.SHOWCASE && (
+          <ShowcaseScreen onHome={goHome} />
         )}
       </PhoneFrame>
     </div>

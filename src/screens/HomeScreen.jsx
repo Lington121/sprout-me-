@@ -16,7 +16,7 @@ const MESSAGES = [
   'Your reflections are taking root.'
 ]
 
-export default function HomeScreen({ onReflect, onInsights, onSuggestions, onProfile }) {
+export default function HomeScreen({ onReflect, onInsights, onSuggestions, onProfile, onShowcase }) {
   const [nudgeOpen, setNudgeOpen] = useState(false)
   const [msg] = useState(() => MESSAGES[Math.floor(Math.random() * MESSAGES.length)])
 
@@ -117,6 +117,12 @@ export default function HomeScreen({ onReflect, onInsights, onSuggestions, onPro
           </div>
         )}
       </div>
+
+      {onShowcase && (
+        <button type="button" className="home__showcase-link" onClick={onShowcase}>
+          Open component showcase →
+        </button>
+      )}
     </div>
   )
 }
