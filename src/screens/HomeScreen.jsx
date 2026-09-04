@@ -16,7 +16,7 @@ const MESSAGES = [
   'Your reflections are taking root.'
 ]
 
-export default function HomeScreen({ onReflect, onInsights, onSuggestions }) {
+export default function HomeScreen({ onReflect, onInsights, onSuggestions, onProfile }) {
   const [nudgeOpen, setNudgeOpen] = useState(false)
   const [msg] = useState(() => MESSAGES[Math.floor(Math.random() * MESSAGES.length)])
 
@@ -25,11 +25,10 @@ export default function HomeScreen({ onReflect, onInsights, onSuggestions }) {
       {/* ===== TOP BAR ===== */}
       <div className="home__topbar">
         <span className="home__greeting">{getGreeting()}</span>
-        <button type="button" className="home__profile" aria-label="Settings">
+        <button type="button" className="home__profile" onClick={onProfile} aria-label="Profile">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
             <circle cx="12" cy="8" r="3.5"/>
             <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
-            <path d="M16.5 8.5 L19 6 M21.5 8.5 L19 6 M19 6v2.5"/>
           </svg>
         </button>
       </div>
