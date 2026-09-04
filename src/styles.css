@@ -339,7 +339,9 @@ a { color: inherit; text-decoration: none; }
   color: inherit;
 }
 .row:last-child { border-bottom: 0; }
-.row--selected { background: rgba(23, 198, 98, 0.06); }
+.row--selected {
+  background: rgba(23, 198, 98, 0.06) !important;
+}
 .row__title {
   flex: 1;
   font-size: 17px;

@@ -22,7 +22,7 @@ export default function Done({ state, onReset, onGoHome }) {
         <div className="illus" style={{ minHeight: 220 }}>
           <TreeFull size={220} />
         </div>
-        <h1 className="headline" style={{ fontSize: 24 }}>You\u2019re all set.</h1>
+        <h1 className="headline" style={{ fontSize: 24 }}>{"You're all set."}</h1>
         <p className="supporting" style={{ maxWidth: 320 }}>
           A calm, simple plan, made for you. Your tree will grow as you do.
         </p>

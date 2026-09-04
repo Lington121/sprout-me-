@@ -15,11 +15,10 @@ const MESSAGES = [
   'A moment of stillness, well spent.',
   'Your reflections are taking root.'
 ]
-const randMsg = () => MESSAGES[Math.floor(Math.random() * MESSAGES.length)]
 
 export default function HomeScreen() {
   const [nudgeOpen, setNudgeOpen] = useState(false)
-  const msg = randMsg()
+  const [msg] = useState(() => MESSAGES[Math.floor(Math.random() * MESSAGES.length)])
 
   return (
     <div className="screen home">
@@ -66,7 +65,7 @@ export default function HomeScreen() {
           23 min left today
         </div>
         <div className="home__chip home__chip--intention">
-          Today\u2019s focus: Stay present
+          {"Today\u2019s focus: Stay present"}
         </div>
       </div>
 
