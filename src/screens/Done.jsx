@@ -15,7 +15,7 @@ Daily limit: ${limit}
 Mode: ${mode}`
 }
 
-export default function Done({ state, onReset }) {
+export default function Done({ state, onReset, onGoHome }) {
   return (
     <div className="screen">
       <div className="screen__body done" style={{ alignItems: 'center' }}>
@@ -27,6 +27,9 @@ export default function Done({ state, onReset }) {
           A calm, simple plan, made for you. Your tree will grow as you do.
         </p>
         <div className="done__summary">{describe(state)}</div>
+        <button type="button" className="pill done__home-btn" onClick={onGoHome}>
+          Go to Home
+        </button>
         <button type="button" className="linkbtn" onClick={onReset}>
           Start over
         </button>
